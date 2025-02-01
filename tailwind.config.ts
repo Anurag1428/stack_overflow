@@ -1,9 +1,8 @@
-// tailwind.config.js
+/** @type {import('tailwindcss').Config} */
 import tailwindcssAnimate from "tailwindcss-animate";
 import tailwindcssForms from "@tailwindcss/forms";
 
-/** @type {import('tailwindcss').Config} */
-const config = {
+module.exports = {
   darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
@@ -47,7 +46,8 @@ const config = {
         spaceGrotesk: ["var(--font-spaceGrotesk)"],
       },
       boxShadow: {
-        "light-100": "0px 12px 20px 0px rgba(184, 184, 184, 0.03), 0px 6px 12px 0px rgba(184, 184, 184, 0.06)",
+        "light-100":
+          "0px 12px 20px 0px rgba(184, 184, 184, 0.03), 0px 6px 12px 0px rgba(184, 184, 184, 0.06)",
         "light-200": "10px 10px 20px 0px rgba(218, 213, 213, 0.10)",
         "light-300": "-10px 10px 20px 0px rgba(218, 213, 213, 0.10)",
         "dark-100": "0px 2px 10px 0px rgba(46, 52, 56, 0.10)",
@@ -78,5 +78,3 @@ const config = {
   },
   plugins: [tailwindcssAnimate, tailwindcssForms],
 };
-
-export default config;
