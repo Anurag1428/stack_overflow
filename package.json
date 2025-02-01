@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.10.6",
     "@tailwindcss/forms": "^0.5.10",
     "eslint-plugin-tailwindcss": "^3.17.5",
     "next": "15.1.4",
