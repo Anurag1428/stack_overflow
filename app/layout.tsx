@@ -13,6 +13,7 @@ import {
 } from '@clerk/nextjs'
 import './globals.css'
 import { ThemeProvider } from '@/context/ThemeProvider'
+import Layout from './(root)/layout'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -51,15 +52,15 @@ export default function RootLayout({
       }
      }}
      >
-          <ThemeProvider>
-          <SignedOut>
+           <ThemeProvider>
+            <SignedOut>
             <SignInButton />
-          </SignedOut>
+             </SignedOut>
           <SignedIn>
-            <UserButton />
+            {/* <UserButton /> */}
           </SignedIn>
-          {children}
-          </ThemeProvider>
+            <Layout>{children}  </Layout> 
+           </ThemeProvider>
           </ClerkProvider>
         </body>
       </html>
