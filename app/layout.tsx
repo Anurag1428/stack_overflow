@@ -9,7 +9,7 @@ import {
   SignInButton,
   SignedIn,
   SignedOut,
-  UserButton
+  // UserButton
 } from '@clerk/nextjs'
 import './globals.css'
 import { ThemeProvider } from '@/context/ThemeProvider'
