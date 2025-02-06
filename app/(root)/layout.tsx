@@ -4,8 +4,7 @@ import LeftSidebar from '@/components/shared/LeftSidebar';
 import RightSidebar from '@/components/shared/RightSidebar';
 
 const Layout = ({children}: { children: React.ReactNode}) => {
-  console.log("Root Layout rendered");
-  return (
+    return (
     <main className="background-light850_dark100 relative ">
       <Navbar/>
   
@@ -19,6 +18,7 @@ const Layout = ({children}: { children: React.ReactNode}) => {
         </section>
 
         <RightSidebar/>
+        
       </div>
 
       Toaster
