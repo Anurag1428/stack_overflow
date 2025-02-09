@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from '@/components/shared/navbar/Navbar';
 import LeftSidebar from '@/components/shared/LeftSidebar';
 import RightSidebar from '@/components/shared/RightSidebar';
+// commiting this due to sports fest 
 
 const Layout = ({children}: { children: React.ReactNode}) => {
     return (
