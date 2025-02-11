@@ -23,7 +23,7 @@ const questions = [
     upvotes: 10,
     views: 100,
     answers: [], // Changed to an array of objects (empty for now)
-    createdAt: new Date("2024-02-11T10:00:00Z") // Changed to Date
+    createdAt: new Date("2022-02-10T10:00:00Z") // Changed to Date
   },
   {
     _id: "2", // Changed to string
