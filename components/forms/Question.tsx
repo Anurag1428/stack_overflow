@@ -1,8 +1,5 @@
 "use client"
 
-console.log("Downgraded react 19 to react18");
-
-
 import React, { useRef, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 // import './App.css';
@@ -26,7 +23,7 @@ import { QuestionsSchema } from "@/lib/validations"
 import { Badge } from '../ui/badge';
 import Image from 'next/image';
 import { createQuestion } from '@/lib/actions/question.action';
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation';
 
 const type:any = 'create'
 
