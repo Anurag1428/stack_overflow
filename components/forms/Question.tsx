@@ -1,5 +1,8 @@
 "use client"
 
+console.log("Downgraded react 19 to react18");
+
+
 import React, { useRef, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 // import './App.css';
