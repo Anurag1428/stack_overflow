@@ -17,15 +17,34 @@
 // export default eslintConfig;
 
 
-module.exports = {
-  extends: [
-    "next/core-web-vitals",
-    "next",
-    "standard",
-    "plugin:tailwindcss/recommended",
-    "prettier"
-  ],
-  rules: {
-    // Add custom rules here if needed
-  }
-};
+// module.exports = {
+//   extends: [
+//     "next/core-web-vitals",
+//     "next",
+//     "standard",
+//     "plugin:tailwindcss/recommended",
+//     "prettier"
+//   ],
+//   rules: {
+//     // Add custom rules here if needed
+//   }
+// };
+
+
+const eslintConfig = [
+  {
+    ignores: ["node_modules/", "dist/", ".next/"],
+  },
+  {
+    plugins: {
+      tailwindcss: require("eslint-plugin-tailwindcss"),
+      prettier: require("eslint-plugin-prettier"),
+    },
+    rules: {
+      "prettier/prettier": "error",
+    },
+  },
+];
+
+export default eslintConfig;
+
