@@ -1,17 +1,31 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+// import { dirname } from "path";
+// import { fileURLToPath } from "url";
+// import { FlatCompat } from "@eslint/eslintrc";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+// const compat = new FlatCompat({
+//   baseDirectory: __dirname,
+// });
 
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript", "standard", 
-    "plugin:tailwindcss/recommended", "prettier")
-];
+// const eslintConfig = [
+//   ...compat.extends("next/core-web-vitals", "next/typescript", "standard", 
+//     "plugin:tailwindcss/recommended", "prettier")
+// ];
 
-export default eslintConfig;
+// export default eslintConfig;
+
+
+module.exports = {
+  extends: [
+    "next/core-web-vitals",
+    "next",
+    "standard",
+    "plugin:tailwindcss/recommended",
+    "prettier"
+  ],
+  rules: {
+    // Add custom rules here if needed
+  }
+};
