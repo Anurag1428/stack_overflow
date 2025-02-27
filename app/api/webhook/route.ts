@@ -2,9 +2,8 @@ import { Webhook } from 'svix';
 import { headers } from 'next/headers';
 import { WebhookEvent } from '@clerk/nextjs/server';
 import { createUser, deleteUser, updateUser } from '@/lib/actions/user.action';
-import { NextResponse } from 'next/server';
 
-export async function POST(req: Request): Promise<Response> {
+export async function POST(req: Request) {
     const SIGNING_SECRET = process.env.NEXT_CLERK_WEBHOOK_SECRET;
 
     if (!SIGNING_SECRET) {
@@ -42,7 +41,6 @@ export async function POST(req: Request): Promise<Response> {
 
     console.log({eventType});
     
-
     if (eventType === 'user.created') {
         const { id, email_addresses, image_url, username, first_name, last_name } = evt.data;
 
@@ -54,7 +52,10 @@ export async function POST(req: Request): Promise<Response> {
             picture: image_url,
         });
 
-        return NextResponse.json({ message: 'User created', user: mongoUser });
+        return new Response(JSON.stringify({ message: 'User created', user: mongoUser }), {
+            headers: { 'Content-Type': 'application/json' },
+            status: 200
+        });
     }
 
     if (eventType === 'user.updated') {
@@ -71,7 +72,10 @@ export async function POST(req: Request): Promise<Response> {
             path: `/profile/${id}`,
         });
 
-        return NextResponse.json({ message: 'User updated', user: mongoUser });
+        return new Response(JSON.stringify({ message: 'User updated', user: mongoUser }), {
+            headers: { 'Content-Type': 'application/json' },
+            status: 200
+        });
     }
 
     if (eventType === 'user.deleted') {
