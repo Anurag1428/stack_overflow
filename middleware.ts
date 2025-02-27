@@ -41,7 +41,12 @@ const isPublicRoute = createRouteMatcher([
   '/tags/:id',
   '/profile/:id',
   '/community',
-  '/jobs'
+  '/jobs',
+  // Clerk auth routes with correct patterns
+  '/sign-in(.*)',  // Use the exact pattern suggested in the error
+  '/sign-up(.*)',  // Same for sign-up
+  '/sso-callback',
+  '/api/auth(.*)'
 ])
 
 export default clerkMiddleware(async (auth, request) => {
