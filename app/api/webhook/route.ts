@@ -107,6 +107,8 @@ console.log('Headers received:', {
   });
   console.log('Payload length:', body.length);
 
+  
+
 
   // At the start of your webhook handler
 if (evt.type === 'user.created' || evt.type === 'user.updated') {
