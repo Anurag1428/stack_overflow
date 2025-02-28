@@ -96,6 +96,17 @@ export async function POST(req: Request) {
         }
     }
 
+
+    // Add this before the try/catch for verification
+console.log('Headers received:', {
+    svix_id,
+    svix_timestamp,
+    svix_signature_length: svix_signature?.length
+  });
+  console.log('Payload length:', body.length);
+
+  
+
     // 8. Handle user.updated event
     if (eventType === 'user.updated') {
         try {
