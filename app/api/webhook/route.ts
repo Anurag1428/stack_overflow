@@ -4,6 +4,8 @@ import { WebhookEvent } from '@clerk/nextjs/server';
 import { createUser, deleteUser, updateUser } from '@/lib/actions/user.action';
 
 export async function POST(req: Request) {
+
+    
     // 1. Get the webhook signing secret
     const SIGNING_SECRET = process.env.NEXT_CLERK_WEBHOOK_SECRET;
 
@@ -105,7 +107,23 @@ console.log('Headers received:', {
   });
   console.log('Payload length:', body.length);
 
-  
+
+  // At the start of your webhook handler
+if (evt.type === 'user.created' || evt.type === 'user.updated') {
+    console.log('Webhook received:', {
+        eventType: evt.type,
+        userId: evt.data.id,
+        timestamp: new Date().toISOString(),
+        imageUpdated: evt.data.image_url !== undefined
+    });
+} else {
+    console.log('Webhook received:', {
+        eventType: evt.type,
+        userId: evt.data.id,
+        timestamp: new Date().toISOString()
+    });
+}
+
 
     // 8. Handle user.updated event
     if (eventType === 'user.updated') {
