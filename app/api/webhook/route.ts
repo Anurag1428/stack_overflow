@@ -6,6 +6,7 @@ import { createUser, deleteUser, updateUser } from '@/lib/actions/user.action';
 export async function POST(req: Request) {
 
     
+    
     // 1. Get the webhook signing secret
     const SIGNING_SECRET = process.env.NEXT_CLERK_WEBHOOK_SECRET;
 
