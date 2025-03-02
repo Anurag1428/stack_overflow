@@ -2,10 +2,6 @@ import React from 'react';
 // eslint-disable-next-line camelcase
 import { Inter, Space_Grotesk } from 'next/font/google';
 import type { Metadata } from 'next';
-// commiting this due to sports fest 
-
-
-
 import {
   ClerkProvider,
   SignInButton,
@@ -16,6 +12,8 @@ import {
 import './globals.css'
 import { ThemeProvider } from '@/context/ThemeProvider'
 // import Layout from './(root)/layout'
+import { Toaster } from 'react-hot-toast'
+import { UserProvider } from '@/components/providers/UserProvider'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -43,31 +41,32 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-   
-      <html lang="en">
-        <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
+    <html lang="en">
+      <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
         <ClerkProvider
-           appearance={{
-           elements: {
-          formButtonPrimary: 'primary-gradient',
-           footerActionLink: 'primary-text-gradient hover:text-primary-500'
-      }
-     }}
-     >
-           <ThemeProvider>
-            <SignedOut>
-            <SignInButton />
-             </SignedOut>
-          <SignedIn>
-            {/* <UserButton /> */}
-          </SignedIn>
-            {/* <Layout> */}
+          appearance={{
+            elements: {
+              formButtonPrimary: 'primary-gradient',
+              footerActionLink: 'primary-text-gradient hover:text-primary-500'
+            }
+          }}
+        >
+          <ThemeProvider>
+            <UserProvider>
+              <SignedOut>
+                <SignInButton />
+              </SignedOut>
+              <SignedIn>
+                {/* <UserButton /> */}
+              </SignedIn>
+              {/* <Layout> */}
               {children}
-            {/* </Layout>  */}
-           </ThemeProvider>
-          </ClerkProvider>
-        </body>
-      </html>
-   
+              {/* </Layout>  */}
+              <Toaster position="top-center" />
+            </UserProvider>
+          </ThemeProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   )
 }

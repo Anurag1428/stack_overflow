@@ -3,6 +3,8 @@ import React from 'react'
 import RenderTag from '../shared/RenderTag';
 import Metric from '../shared/Metric';
 import { formatBigNumber, getTimestamp } from '@/lib/utils';
+import { useClerk } from '@clerk/nextjs';
+
 
 interface QuestionProps {
     _id: string;
@@ -21,6 +23,7 @@ interface QuestionProps {
      answers: Array<object>;
      createdAt: Date;
 }
+
 
 const QuestionCard = ({
     _id,
@@ -50,6 +53,7 @@ const QuestionCard = ({
 
             {/* { If signed in add edit delete actions} */}
         </div>
+        
 
         <div className="mt-3.5 flex flex-wrap gap-2">
             {tags.map((tag) => (
@@ -58,9 +62,10 @@ const QuestionCard = ({
 
         </div>
 
+
         <div className="flex-between mt-6 w-full flex-wrap gap-3">
             <Metric
-                imgUrl="/assets/icons/avatar.svg"
+                imgUrl={author.picture || '/assets/icons/user.svg'}
                 alt="user"
                 value={author.name}
                 title={` - asked ${getTimestamp(createdAt)}`}
