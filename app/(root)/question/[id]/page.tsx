@@ -9,12 +9,12 @@ import { formatBigNumber, getTimestamp } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
-interface PageProps {
+type Props = {
   params: { id: string };
-  searchParams?: Record<string, string | string[] | undefined>; // Make it optional
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
-const Page = async ({ params, searchParams = {} }: PageProps) => {
+const Page = async ({ params, searchParams = {} }: Props) => {
   if (!params?.id) return notFound(); // Ensure ID exists
 
   const result = await getQuestionById({ questionId: params.id });
