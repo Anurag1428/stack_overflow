@@ -1,4 +1,3 @@
-import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Answer from "@/components/forms/Answer";
 import Metric from "@/components/shared/Metric";
@@ -9,13 +8,15 @@ import { formatBigNumber, getTimestamp } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
-type Props = {
+// Remove the explicit Props type and use the Next.js default parameter structure
+export default async function Page({ 
+  params, 
+  searchParams 
+}: {
   params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-}
-
-const Page = async ({ params, searchParams = {} }: Props) => {
-  if (!params?.id) return notFound(); // Ensure ID exists
+  searchParams?: Record<string, string | string[] | undefined>;
+}) {
+  if (!params?.id) return notFound();
 
   const result = await getQuestionById({ questionId: params.id });
 
@@ -47,7 +48,7 @@ const Page = async ({ params, searchParams = {} }: Props) => {
             <RenderTag 
               key={tag._id}
               _id={tag._id}
-              name={tag.name || `Unnamed (${tag._id})`} // More descriptive fallback
+              name={tag.name || `Unnamed (${tag._id})`} 
               showCount={false}
               totalQuestions={0}
             />
@@ -60,6 +61,4 @@ const Page = async ({ params, searchParams = {} }: Props) => {
       <Answer />
     </>
   );
-};
-
-export default Page;
+}
