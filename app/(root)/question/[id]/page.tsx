@@ -14,12 +14,9 @@ interface PageProps {
 }
 
 const Page = async ({ params, searchParams }: PageProps) => {
-  // Await the params object before accessing its properties
-  const resolvedParams = await Promise.resolve(params);
-  const questionId = resolvedParams.id;
+  const questionId = params.id; // No need to await params
 
   const result = await getQuestionById({ questionId });
-
 
   return (
     <>
@@ -45,24 +42,21 @@ const Page = async ({ params, searchParams }: PageProps) => {
       {/* Tags Section */}
       <div className="mt-8 flex flex-wrap gap-2">
         {Array.isArray(result.tags) && result.tags.length > 0 ? (
-          result.tags.map((tag: any) => {
-            return (
-              <RenderTag 
-                key={tag._id}
-                _id={tag._id}
-                name={tag.name ? tag.name : `Unnamed (${tag._id})`} // More descriptive fallback
-                showCount={false}
-                totalQuestions={0}
-              />
-            );
-          })
+          result.tags.map((tag: { _id: string; name?: string }) => (
+            <RenderTag 
+              key={tag._id}
+              _id={tag._id}
+              name={tag.name || `Unnamed (${tag._id})`} // More descriptive fallback
+              showCount={false}
+              totalQuestions={0}
+            />
+          ))
         ) : (
           <p className="text-dark400_light800">No tags available</p>
         )}
       </div>
 
       <Answer />
-
     </>
   );
 };
