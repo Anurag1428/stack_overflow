@@ -9,7 +9,9 @@ import {
   SignedOut,
   // UserButton
 } from '@clerk/nextjs'
-import './globals.css'
+import './globals.css';
+import '../styles/prism.css';
+
 import { ThemeProvider } from '@/context/ThemeProvider'
 // import Layout from './(root)/layout'
 import { Toaster } from 'react-hot-toast'
