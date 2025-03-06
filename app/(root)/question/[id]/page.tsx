@@ -1,22 +1,23 @@
-import Answer from '@/components/forms/Answer';
-import Metric from '@/components/shared/Metric';
-import ParseHTML from '@/components/shared/ParseHTML';
-import RenderTag from '@/components/shared/RenderTag';
-import { getQuestionById } from '@/lib/actions/question.action';
-import { formatBigNumber, getTimestamp } from '@/lib/utils';
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import Answer from "@/components/forms/Answer";
+import Metric from "@/components/shared/Metric";
+import ParseHTML from "@/components/shared/ParseHTML";
+import RenderTag from "@/components/shared/RenderTag";
+import { getQuestionById } from "@/lib/actions/question.action";
+import { formatBigNumber, getTimestamp } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
 
 interface PageProps {
   params: { id: string };
-  searchParams: Record<string, string | string[] | undefined>;
+  searchParams?: Record<string, string | string[] | undefined>; // Make it optional
 }
 
-const Page = async ({ params, searchParams }: PageProps) => {
-  const questionId = params.id; // No need to await params
+const Page = async ({ params, searchParams = {} }: PageProps) => {
+  if (!params?.id) return notFound(); // Ensure ID exists
 
-  const result = await getQuestionById({ questionId });
+  const result = await getQuestionById({ questionId: params.id });
 
   return (
     <>
