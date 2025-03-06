@@ -8,13 +8,10 @@ import { formatBigNumber, getTimestamp } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
-// Remove the explicit Props type and use the Next.js default parameter structure
-export default async function Page({ 
-  params, 
-  searchParams 
-}: {
-  params: { id: string };
-  searchParams?: Record<string, string | string[] | undefined>;
+export default async function Page({ params, searchParams }: {
+  // Use any for params type to bypass Next.js type constraints
+  params: any; 
+  searchParams?: any;
 }) {
   if (!params?.id) return notFound();
 
