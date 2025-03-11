@@ -7,6 +7,10 @@ import { getQuestionById } from "@/lib/actions/question.action";
 import { formatBigNumber, getTimestamp } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { auth } from "@clerk/nextjs/server";
+import { getUserById } from "@/lib/actions/user.action";
+import AllAnswers from "@/components/shared/AllAnswers";
+import Votes from "@/components/shared/Votes";
 
 export default async function Page({ params, searchParams }: {
   // Use any for params type to bypass Next.js type constraints
@@ -15,7 +19,15 @@ export default async function Page({ params, searchParams }: {
 }) {
   if (!params?.id) return notFound();
 
-  const result = await getQuestionById({ questionId: params.id });
+  const { userId: clerkId } = await auth();
+
+  let mongoUser;
+
+  if(clerkId) {
+    mongoUser = await getUserById({ userId: clerkId });
+  }
+
+  const result = await getQuestionById({ questionId: params.id})
 
   return (
     <>
@@ -25,7 +37,9 @@ export default async function Page({ params, searchParams }: {
             <Image src={result.author.picture} className="rounded-full" width={22} height={22} alt="Profile" />
             <p className="paragraph-semibold text-dark300_light700">{result.author.name}</p>
           </Link>
-          <div className="flex justify-end">VOTING</div>
+          <div className="flex justify-end">
+            <Votes />
+            </div>
         </div>
         <h2 className="h2-semibold text-dark200_light900 mt-3.5 w-full text-left">{result.title}</h2>
       </div>
@@ -55,7 +69,17 @@ export default async function Page({ params, searchParams }: {
         )}
       </div>
 
-      <Answer />
+      <AllAnswers
+        questionId={result._id}
+        userId={JSON.stringify(mongoUser._id)}
+        totalAnswers = { result.answers.length}
+      />
+
+      <Answer 
+        question={result.content}
+        questionId={JSON.stringify(result._id)}
+        authorId={JSON.stringify(mongoUser._id)}
+      />
     </>
   );
 }
