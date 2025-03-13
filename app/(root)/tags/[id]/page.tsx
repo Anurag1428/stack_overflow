@@ -1,17 +1,23 @@
+import { Metadata } from 'next';
+import { getQuestionsByTagId } from '@/lib/actions/tag.actions';
+import { IQuestion } from '@/database/question.model';
 import QuestionCard from '@/components/cards/QuestionCard';
 import NoResult from '@/components/shared/NoResult';
 import LocalSearchbar from '@/components/shared/search/LocalSearchbar';
-import { IQuestion } from '@/database/question.model';
-import { getQuestionsByTagId } from '@/lib/actions/tag.actions';
-import { URLProps } from '@/types';
-import React from 'react'
 
-const Page = async ({ params, searchParams}: URLProps) => {
-    const result = await getQuestionsByTagId({
-        tagId: params.id,
-        page: 1,
-        searchQuery: searchParams.q
-    })
+// Remove URLProps import unless you specifically need it.
+
+interface PageProps {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
+const Page = async ({ params, searchParams }: PageProps) => {
+  const result = await getQuestionsByTagId({
+    tagId: params.id,
+    page: 1,
+    searchQuery: typeof searchParams.q === 'string' ? searchParams.q : '',
+  });
 
   return (
     <>
@@ -25,12 +31,11 @@ const Page = async ({ params, searchParams}: URLProps) => {
           placeholder="Search tag questions"
           otherClasses="flex-1"
         />
-        
       </div>
 
       <div className="mt-10 flex w-full flex-col gap-6">
         {result.questions.length > 0 ? (
-          result.questions.map((question: any) => ( // ✅ FIXED (add correct type if you have one)
+          result.questions.map((question: IQuestion) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
@@ -53,7 +58,7 @@ const Page = async ({ params, searchParams}: URLProps) => {
         )}
       </div>
     </>
-  )
-}
+  );
+};
 
 export default Page;
