@@ -32,12 +32,12 @@ const Page = async ({ params, searchParams}: URLProps) => {
         {result.questions.length > 0 ? (
           result.questions.map((question: IQuestion) => ( // ✅ FIXED (add correct type if you have one)
             <QuestionCard
-              key={question._id}
-              _id={question._id}
+              key={question._id as string}
+              _id={question._id as unknown as string}
               title={question.title}
-              tags={question.tags}
-              author={question.author || { name: 'Unknown User', _id: 'unknown' }}
-              upvotes={question.upvotes}
+              tags={question.tags.map(tag => ({ _id: tag.toString(), name: 'Tag Name' }))}
+              author={typeof question.author === 'object' && !Array.isArray(question.author) ? question.author : { name: 'Unknown User', _id: 'unknown', picture: '/path/to/default/picture.png' }}
+              upvotes={question.upvotes.map(upvote => upvote.toString())}
               views={question.views}
               answers={question.answers}
               createdAt={question.createdAt}
