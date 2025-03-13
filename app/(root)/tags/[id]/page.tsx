@@ -1,22 +1,24 @@
-import { Metadata } from 'next';
 import { getQuestionsByTagId } from '@/lib/actions/tag.actions';
-import { IQuestion } from '@/database/question.model';
 import QuestionCard from '@/components/cards/QuestionCard';
 import NoResult from '@/components/shared/NoResult';
 import LocalSearchbar from '@/components/shared/search/LocalSearchbar';
 
-// Remove URLProps import unless you specifically need it.
-
 interface PageProps {
   params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-const Page = async ({ params, searchParams }: PageProps) => {
+export default function Page({ params, searchParams }: PageProps) {
+  return (
+    <TagPageContent params={params} searchParams={searchParams} />
+  );
+}
+
+async function TagPageContent({ params, searchParams }: PageProps) {
   const result = await getQuestionsByTagId({
     tagId: params.id,
     page: 1,
-    searchQuery: typeof searchParams.q === 'string' ? searchParams.q : '',
+    searchQuery: typeof searchParams?.q === 'string' ? searchParams.q : '',
   });
 
   return (
@@ -35,7 +37,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
 
       <div className="mt-10 flex w-full flex-col gap-6">
         {result.questions.length > 0 ? (
-          result.questions.map((question: IQuestion) => (
+          result.questions.map((question: any) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
@@ -59,6 +61,4 @@ const Page = async ({ params, searchParams }: PageProps) => {
       </div>
     </>
   );
-};
-
-export default Page;
+}
