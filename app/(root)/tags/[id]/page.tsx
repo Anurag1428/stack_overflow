@@ -1,24 +1,17 @@
-import { getQuestionsByTagId } from '@/lib/actions/tag.actions';
 import QuestionCard from '@/components/cards/QuestionCard';
 import NoResult from '@/components/shared/NoResult';
 import LocalSearchbar from '@/components/shared/search/LocalSearchbar';
+import { IQuestion } from '@/database/question.model';
+import { getQuestionsByTagId } from '@/lib/actions/tag.actions';
+import { URLProps } from '@/types';
+import React from 'react'
 
-interface SearchParams {
-  [key: string]: string | string[] | undefined;
-}
-
-export default async function Page({
-  params,
-  searchParams,
-}: {
-  params: { id: string };
-  searchParams?: SearchParams;
-}) {
-  const result = await getQuestionsByTagId({
-    tagId: params.id,
-    page: 1,
-    searchQuery: typeof searchParams?.q === 'string' ? searchParams.q : '',
-  });
+const Page = async ({ params, searchParams}: URLProps) => {
+    const result = await getQuestionsByTagId({
+        tagId: params.id,
+        page: 1,
+        searchQuery: searchParams.q
+    })
 
   return (
     <>
@@ -32,11 +25,12 @@ export default async function Page({
           placeholder="Search tag questions"
           otherClasses="flex-1"
         />
+        
       </div>
 
       <div className="mt-10 flex w-full flex-col gap-6">
         {result.questions.length > 0 ? (
-          result.questions.map((question: any) => (
+          result.questions.map((question: any) => ( // ✅ FIXED (add correct type if you have one)
             <QuestionCard
               key={question._id}
               _id={question._id}
@@ -59,5 +53,7 @@ export default async function Page({
         )}
       </div>
     </>
-  );
+  )
 }
+
+export default Page;
