@@ -3,18 +3,17 @@ import QuestionCard from '@/components/cards/QuestionCard';
 import NoResult from '@/components/shared/NoResult';
 import LocalSearchbar from '@/components/shared/search/LocalSearchbar';
 
-interface PageProps {
+interface SearchParams {
+  [key: string]: string | string[] | undefined;
+}
+
+export default async function Page({
+  params,
+  searchParams,
+}: {
   params: { id: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}
-
-export default function Page({ params, searchParams }: PageProps) {
-  return (
-    <TagPageContent params={params} searchParams={searchParams} />
-  );
-}
-
-async function TagPageContent({ params, searchParams }: PageProps) {
+  searchParams?: SearchParams;
+}) {
   const result = await getQuestionsByTagId({
     tagId: params.id,
     page: 1,
