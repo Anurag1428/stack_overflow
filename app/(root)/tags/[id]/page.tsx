@@ -4,14 +4,14 @@ import LocalSearchbar from '@/components/shared/search/LocalSearchbar';
 import { IQuestion } from '@/database/question.model';
 import { getQuestionsByTagId } from '@/lib/actions/tag.actions';
 import { URLProps } from '@/types';
-import React from 'react';
+import React from 'react'
 
-const Page = async ({ params, searchParams }: URLProps) => {
-  const result = await getQuestionsByTagId({
-    tagId: params.id,
-    page: 1,
-    searchQuery: typeof searchParams.q === 'string' ? searchParams.q : '',
-  });
+const Page = async ({ params, searchParams}: URLProps) => {
+    const result = await getQuestionsByTagId({
+        tagId: params.id,
+        page: 1,
+        searchQuery: searchParams.q
+    })
 
   return (
     <>
@@ -25,29 +25,19 @@ const Page = async ({ params, searchParams }: URLProps) => {
           placeholder="Search tag questions"
           otherClasses="flex-1"
         />
+        
       </div>
 
       <div className="mt-10 flex w-full flex-col gap-6">
         {result.questions.length > 0 ? (
-          result.questions.map((question: IQuestion) => (
+          result.questions.map((question: any) => ( // ✅ FIXED (add correct type if you have one)
             <QuestionCard
-              key={question._id as string}
-              _id={question._id as unknown as string}
+              key={question._id}
+              _id={question._id}
               title={question.title}
-              tags={question.tags.map((tag) => ({
-                _id: tag.toString(),
-                name: 'Tag Name',
-              }))}
-              author={
-                typeof question.author === 'object' && !Array.isArray(question.author)
-                  ? question.author
-                  : {
-                      name: 'Unknown User',
-                      _id: 'unknown',
-                      picture: '/path/to/default/picture.png',
-                    }
-              }
-              upvotes={question.upvotes.map((upvote) => upvote.toString())}
+              tags={question.tags}
+              author={question.author || { name: 'Unknown User', _id: 'unknown' }}
+              upvotes={question.upvotes}
               views={question.views}
               answers={question.answers}
               createdAt={question.createdAt}
@@ -63,7 +53,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
         )}
       </div>
     </>
-  );
-};
+  )
+}
 
 export default Page;
