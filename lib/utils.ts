@@ -28,14 +28,20 @@ export const getTimestamp = (createdAt: Date): string => {
   return "just now";
 };
 
-export const formatBigNumber = (num: number): string => {
+export const formatBigNumber = (num?: number): string => {
+  if (typeof num !== 'number' || isNaN(num)) {
+    return '0';
+  }
+
   if (num >= 1000000) {
     return `${(num / 1000000).toFixed(1)}M`;
   } else if (num >= 1000) {
     return `${(num / 1000).toFixed(1)}K`;
   }
+
   return num.toString();
 };
+
 
 export const getJoinedDate = (date: Date): string => {
   const month = date.toLocaleString('default', { month: 'long' });

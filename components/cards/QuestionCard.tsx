@@ -3,7 +3,6 @@ import React from 'react'
 import RenderTag from '../shared/RenderTag';
 import Metric from '../shared/Metric';
 import { formatBigNumber, getTimestamp } from '@/lib/utils';
-import { useClerk } from '@clerk/nextjs';
 
 
 interface QuestionProps {
