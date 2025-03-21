@@ -39,22 +39,38 @@ export async function createUser(userData: CreateUserParams) {
 }
 
 export async function updateUser(params: UpdateUserParams) {
+  // try {
+  //   await connectToDatabase();
+    
+  //   const { clerkId, updateData, path } = params;
+    
+  //   const updatedUser = await User.findOneAndUpdate(
+  //     { clerkId }, 
+  //     updateData, 
+  //     { new: true }
+  //   );
+    
+  //   if (path) {
+  //     revalidatePath(path);
+  //   }
+    
+  //   return updatedUser;
+  // } catch (error) {
+  //   console.log(error);
+  //   throw error;
+  // }
+
   try {
-    await connectToDatabase();
-    
+    connectToDatabase();
+
     const { clerkId, updateData, path } = params;
-    
-    const updatedUser = await User.findOneAndUpdate(
-      { clerkId }, 
-      updateData, 
-      { new: true }
-    );
-    
-    if (path) {
-      revalidatePath(path);
-    }
-    
-    return updatedUser;
+
+    await User.findOneAndUpdate({clerkId}, updateData, {
+      new: true
+    });
+
+
+    revalidatePath(path);
   } catch (error) {
     console.log(error);
     throw error;
