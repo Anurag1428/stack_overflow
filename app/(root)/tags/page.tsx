@@ -1,16 +1,18 @@
-import UserCard from '@/components/cards/UserCard';
+// import UserCard from '@/components/cards/UserCard';
 import Filter from '@/components/shared/Filter';
 import NoResult from '@/components/shared/NoResult';
 import LocalSearchbar from '@/components/shared/search/LocalSearchbar';
 import {  UserFilters } from '@/constants/filters';
 import { getAllTags } from '@/lib/actions/tag.actions';
+import { SearchParamsProps } from '@/types';
 import Link from 'next/link';
 //this commit is for testing contributions whether they are being counted or not
 
-const Page = async () => {
-  const result = await getAllTags({})
+const Page = async ({ searchParams} : SearchParamsProps) => {
+  const result = await getAllTags({
+    searchQuery: searchParams.q
+  })
 
-  console.log(result.tags);
 
   return (
     <>
