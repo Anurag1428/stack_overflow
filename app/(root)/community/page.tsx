@@ -3,11 +3,13 @@ import Filter from '@/components/shared/Filter';
 import LocalSearchbar from '@/components/shared/search/LocalSearchbar';
 import {  UserFilters } from '@/constants/filters';
 import { getAllUsers } from '@/lib/actions/user.action';
+import { SearchParamsProps } from '@/types';
 //this commit is for testing contributions whether they are being counted or not
 
-const Page = async () => {
-  const result = await getAllUsers({})
-
+const Page = async ({ searchParams }: SearchParamsProps) => {
+  const result = await getAllUsers({
+    searchQuery: searchParams.q
+  })
   return (
     <>
             <h1 className="h1-bold text-dark100_light900">
@@ -36,9 +38,9 @@ const Page = async () => {
             ) : (
               <div className="paragraph-regular text-dark200_light800 mx-auto max-w-4xl text-center">
                 <p>No users yet</p>
-                <link  href="/sign-up" className="mt-2 font-bold text-accent-blue" >
+                <a  href="/sign-up" className="mt-2 font-bold text-accent-blue" >
                   Join to be the first!
-                </link>
+                </a>
               </div>
             )}
           </section>
