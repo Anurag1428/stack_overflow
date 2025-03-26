@@ -44,6 +44,7 @@ const LocalSearchbar = ({
             params: searchParams.toString(),
             keysToRemove: ['q']
           })
+          
           router.push(newUrl, { scroll: false});
         }
 
