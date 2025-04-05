@@ -249,7 +249,17 @@ export async function downvoteQuestion(params: QuestionVoteParams) {
               throw new Error("Question not found")
           }
   
-          // Increment author's reputation
+           // Increment author's reputation
+            await User.findByIdAndUpdate(userId, { 
+                $inc: { reputation: hasupVoted ? -2 : 2 }
+            });
+
+            await User.findByIdAndUpdate(question.author, { 
+                $inc: { reputation: hasupVoted ? -10 : 10 }
+            });
+
+            // pr doesn't showed for implementing reputation for answers.
+
   
           revalidatePath(path);
   
