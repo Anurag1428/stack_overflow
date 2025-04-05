@@ -258,6 +258,8 @@ export async function downvoteQuestion(params: QuestionVoteParams) {
                 $inc: { reputation: hasupVoted ? -10 : 10 }
             });
 
+            // pr doesn't showed for implementing reputation for answers.
+
   
           revalidatePath(path);
   
