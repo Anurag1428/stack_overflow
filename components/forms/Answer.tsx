@@ -22,7 +22,7 @@ interface Props {
 const Answer = ({ question, questionId, authorId }: Props) => {
   const pathname = usePathname();
   const [ isSubmitting, setIsSubmitting ] = useState(false)
-  const [setIsSubmittingAI, setSetIsSubmittingAI] = useState(false)
+  const [isSubmittingAI, setSetIsSubmittingAI] = useState(false)
   const { mode } = useTheme();
   const editorRef = useRef(null)
   const form = useForm<z.infer<typeof AnswerSchema>>({
@@ -59,25 +59,48 @@ const Answer = ({ question, questionId, authorId }: Props) => {
     }
   }
 
-  const generateAIAnswer = async () => {
-    if(!authorId) return;
+ // 1. First, update your Answer component's generateAIAnswer function:
 
-    setSetIsSubmittingAI(true);
+const generateAIAnswer = async () => {
+  if(!authorId) return;
 
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`,{method: 'POST', body: JSON.stringify({ question })})
+  setSetIsSubmittingAI(true);
 
-      const aiAnswer = await response.json()
+  try {
+    // Updated to use a more generic AI endpoint with model specification
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/ai`, {
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 
+        question,
+        model: 'gemini' // Specify we want to use Gemini
+      })
+    });
 
-      alert(aiAnswer.reply)
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setSetIsSubmittingAI(false)
+    const aiAnswer = await response.json();
 
+    if (aiAnswer.error) {
+      throw new Error(aiAnswer.error);
     }
-  }
 
+    // Convert plain text to HTML format
+    const formattedAnswer = aiAnswer.reply.replace(/\n/g, '<br />');
+
+    if(editorRef.current) {
+      const editor = editorRef.current as any;
+      editor.setContent(formattedAnswer);
+    }
+
+    // You can add a toast notification here if you have a toast system
+  } catch (error) {
+    console.log(error);
+    // You can add an error toast here
+  } finally {
+    setSetIsSubmittingAI(false);
+  }
+}
 
   return (
     <div>
@@ -91,6 +114,13 @@ const Answer = ({ question, questionId, authorId }: Props) => {
           shadow-none dark:text-primary-500"
           onClick={generateAIAnswer}
           >
+
+          {isSubmittingAI ? (
+            <>
+            Generating...
+            </>
+          ) : (
+          <>
           <Image
             src="/assets/icons/stars.svg"
             alt= "star"
@@ -99,7 +129,9 @@ const Answer = ({ question, questionId, authorId }: Props) => {
             className= "object-contain"
           />
           Generate AI Answer
-        </Button>
+        </>
+        )}
+          </Button>
       </div>
       <Form {...form}>
         <form 
