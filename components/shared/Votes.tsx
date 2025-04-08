@@ -8,6 +8,8 @@ import { formatBigNumber } from '@/lib/utils';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
+import { Toast } from '../ui/toast';
+import { toast } from '@/hooks/use-toast';
 
 interface Props {
   type: string;
@@ -43,7 +45,16 @@ const Votes = ({
 
     const handleVote = async (action: string) => {
       if(!userId) {
-        return;
+        return toast({
+          title: 'You need to be logged in to vote',
+          description: 'Please login to your account to vote',
+        })
+
+        return toast({
+          title: `Question ${!hasSaved ? 'Saved in' : 'Removed from'} your collection`,
+          variant: !hasSaved ? 'default' : 'destructive',
+        })
+        
       }
 
       if(action === 'upvote') {
@@ -66,8 +77,10 @@ const Votes = ({
         }
 
         // todo: show a toast
-
-        return;
+        return toast({
+          title: `Upvote ${!hasupVoted ? 'Successful' : 'Removed'}`,
+          variant: !hasupVoted ? 'default' : 'destructive',
+        })
       }
 
       if(action === 'downvote') {
@@ -90,7 +103,10 @@ const Votes = ({
         }
 
         // todo: show a toast
-        return;
+        return toast({
+          title: `Downvote ${!hasupVoted ? 'Successful' : 'Removed'}`,
+          variant: !hasupVoted ? 'default' : 'destructive',
+        })
       }
     }
 
