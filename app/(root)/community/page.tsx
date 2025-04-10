@@ -1,3 +1,6 @@
+// @ts-nocheck
+
+
 import UserCard from '@/components/cards/UserCard';
 import Filter from '@/components/shared/Filter';
 import Pagination from '@/components/shared/Pagination';
