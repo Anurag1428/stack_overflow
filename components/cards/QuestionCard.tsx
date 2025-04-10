@@ -85,6 +85,7 @@ const QuestionCard = ({
                 isAuthor
                 textStyles="body-medium text-dark400_light700"
             />
+                <div className="flex items-center gap-3 max-sm:flex-wrap max-sm:justify-start">
             <Metric
                 imgUrl="/assets/icons/like.svg"
                 alt="Upvotes"
@@ -106,6 +107,7 @@ const QuestionCard = ({
             title=" Views"
             textStyles="small-medium text-dark400_light800"
         />
+            </div>
         </div>
 
     </div>

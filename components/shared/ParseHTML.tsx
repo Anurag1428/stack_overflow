@@ -38,8 +38,8 @@ const ParseHTML = ({ data }: Props) => {
   }, [])
 
   return (
-    <div>
-      {parse(data)}
+    <div className="w-full px-4 sm:px-6 md:px-8 space-y-4 text-light-400 leading-relaxed break-words overflow-x-auto">
+  {parse(data)}
     </div>
   )
 }

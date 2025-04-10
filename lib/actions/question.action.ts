@@ -3,13 +3,14 @@
 import Question from "@/database/question.model";
 import { connectToDatabase } from "../mongoose"
 import Tag from "@/database/tag.model";
-import { CreateQuestionParams, DeleteQuestionParams, EditQuestionParams, GetQuestionByIdParams, GetQuestionsParams, QuestionVoteParams } from "./shared.types";
+import { CreateQuestionParams, DeleteQuestionParams, EditQuestionParams, GetQuestionByIdParams, GetQuestionsParams, QuestionVoteParams, RecommendedParams } from "./shared.types";
 import User from "@/database/user.model";
 import { revalidatePath } from "next/cache";
 import Interaction from "@/database/interaction.model";
 import Answer from "@/database/answer.model";
 import { FilterQuery } from "mongoose";
 import { act } from "react";
+import { skip } from "node:test";
 
 
 export async function getQuestions(params: GetQuestionsParams) {
@@ -326,4 +327,75 @@ export async function getHotQuestions() {
         console.log(error);
         throw error;
       }
+    }
+
+export async function getRecommendedQuestions(params: 
+    RecommendedParams) {
+        try{
+            await connectToDatabase()
+
+            const { userId, page=1, pageSize=20, searchQuery} = params;
+
+            //find user
+            const user = await User.findOne({ clerkId: userId});
+
+            if(!user) {
+                throw new Error("User not found")
+            }
+
+            const skipAmount = (page - 1) * pageSize;
+
+            //Find the user's Interactions
+            const userInteractions = await Interaction.find({ user: user._id })
+            .populate("tags")
+            .exec();
+
+            //Extract tags from user interactions
+            const userTags = userInteractions.reduce((tags, interaction) => {
+                if(interaction.tags) {
+                    tags = tags.concat(interaction.tags);
+                }
+                return tags;
+            }, []);
+
+            // Get distinct tag IDs from user's interactions
+            const distinctUserTagIds = [
+                ...new Set(userTags.map((tag: any) => tag._id)),
+            ];
+
+            const query: FilterQuery<typeof Question> = {
+                $and: [
+                    { tags: { $in: distinctUserTagIds }},
+                    { author: { $ne: user._id }},
+                ],
+            };
+
+            if(searchQuery) {
+                query.$or = [
+                    {title: { $regex: searchQuery, $options: "i"}},
+                    {content: { $regex: searchQuery, $options: "i"}},
+                ];
+            }
+
+            const totalQuestions = await Question.countDocuments(query);
+
+            const recommendedQuestions = await Question.find(query)
+            .populate({
+                path: "tags",
+                model: Tag,
+            })
+            .populate({
+                path: "author",
+                model: User,
+            })
+            .skip(skipAmount)
+            .limit(pageSize)
+
+            const isNext = totalQuestions > skipAmount + recommendedQuestions.length;
+
+            return { questions: recommendedQuestions, isNext };
+        } catch(error) {
+            console.error("Error fetching recommended questions:", error);
+            throw error;
+        }
     }
