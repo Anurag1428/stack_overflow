@@ -11,7 +11,7 @@ import { SearchParamsProps } from "@/types"
 import { auth } from "@clerk/nextjs/server";
 
 
-export default async function Home({ searchParams }: SearchParamsProps) {
+export default async function Home({ searchParams }: any) {
   const { userId } = await auth(); // ✅ FIXED
 
   if (!userId) return null;
