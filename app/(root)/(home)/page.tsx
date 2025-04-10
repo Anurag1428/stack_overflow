@@ -22,12 +22,11 @@ const getStringParam = (param?: string | string[]) => {
   return Array.isArray(param) ? param[0] : param;
 };
 
-interface HomeProps {
-  params: {};
-  searchParams: { [key: string]: string | string[] | undefined };
-}
-
-export default async function Home({ params, searchParams }: HomeProps) {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Record<string, string | string[] | undefined>;
+}) {
   const { userId } = await auth();
 
   const filter = getStringParam(searchParams.filter);
