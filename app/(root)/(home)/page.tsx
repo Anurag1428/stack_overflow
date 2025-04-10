@@ -7,46 +7,56 @@ import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
 import { getQuestions, getRecommendedQuestions } from "@/lib/actions/question.action";
-import { SearchParamsProps } from "@/types";
 import Link from "next/link";
-
 import type { Metadata } from "next";
 import { auth } from "@clerk/nextjs/server";
 
 export const metadata: Metadata = {
-  title: 'Home | Dev Overflow',
-  description: 'Dev Overflow is a community of 1,000,000+ developers where you can interact with other developers, ask questions, and share knowledge. Join us.',
+  title: "Home | Dev Overflow",
+  description:
+    "Dev Overflow is a community of 1,000,000+ developers where you can interact with other developers, ask questions, and share knowledge. Join us.",
+};
+
+// Helper function to safely extract string values
+const getStringParam = (param?: string | string[]) => {
+  return Array.isArray(param) ? param[0] : param;
+};
+
+interface HomeProps {
+  params: {};
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
-export default async function Home({ searchParams }: SearchParamsProps) {
-
+export default async function Home({ params, searchParams }: HomeProps) {
   const { userId } = await auth();
+
+  const filter = getStringParam(searchParams.filter);
+  const q = getStringParam(searchParams.q);
+  const page = parseInt(getStringParam(searchParams.page) || "1");
 
   let result;
 
-  if(searchParams?.filter === 'recommended') {
-    if(await userId) {
-      result = result = await getRecommendedQuestions({
+  if (filter === "recommended") {
+    if (userId) {
+      result = await getRecommendedQuestions({
         userId: userId as string,
-        searchQuery: searchParams.q,
-        page: searchParams.page ? +searchParams.page : 1,
+        searchQuery: q,
+        page,
       });
     } else {
       result = {
         questions: [],
         isNext: false,
-      }
+      };
     }
   } else {
     result = await getQuestions({
-      searchQuery: searchParams.q,
-      filter: searchParams.filter,
-      page: searchParams.page ? +searchParams.page : 1,
+      searchQuery: q,
+      filter,
+      page,
     });
   }
 
-  
-  
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -83,7 +93,10 @@ export default async function Home({ searchParams }: SearchParamsProps) {
               _id={question._id}
               title={question.title}
               tags={question.tags}
-              author={question.author || { name: 'Unknown User', _id: 'unknown' }}
+              author={question.author || {
+                name: "Unknown User",
+                _id: "unknown",
+              }}
               upvotes={question.upvotes}
               views={question.views}
               answers={question.answers}
@@ -99,12 +112,10 @@ export default async function Home({ searchParams }: SearchParamsProps) {
           />
         )}
       </div>
-        <div className="mt-10">
-        <Pagination
-          pageNumber= {searchParams?.page ? +searchParams.page : 1}
-          isNext= {result.isNext}
-          />
-        </div>
+
+      <div className="mt-10">
+        <Pagination pageNumber={page} isNext={result.isNext} />
+      </div>
     </>
   );
 }
