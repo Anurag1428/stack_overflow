@@ -5,7 +5,7 @@ import { ParamsProps } from '@/types';
 import { auth } from '@clerk/nextjs/server';
 import React from 'react'
  
-const Page = async ({ params} : ParamsProps) => {
+const Page = async ({ params} : any) => {
   const { userId } = await auth();
 
   if(!userId) return null;
