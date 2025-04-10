@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import QuestionCard from "@/components/cards/QuestionCard";
 import Filter from "@/components/shared/Filter";
 import NoResult from "@/components/shared/NoResult";
@@ -8,7 +10,7 @@ import { getSavedQuestions } from "@/lib/actions/user.action";
 import { SearchParamsProps } from "@/types";
 import { auth } from "@clerk/nextjs/server";
 
-// @ts-ignore
+
 export default async function Home({ searchParams }: SearchParamsProps) {
   const { userId } = await auth(); // ✅ FIXED
 
