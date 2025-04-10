@@ -14,7 +14,7 @@ import QuestionTab from '@/components/shared/QuestionTab';
 import AnswersTab from '@/components/shared/AnswersTab';
 
 
-export const Page = async ({ params, searchParams} : URLProps) => {
+const Page = async ({ params, searchParams} : any) => {
     const { userId: clerkId } = await auth();
     const userInfo = await getUserInfo({ userId: params.id})
 
@@ -94,7 +94,7 @@ export const Page = async ({ params, searchParams} : URLProps) => {
                 <TabsTrigger value="top-posts" className="tab">Top Posts</TabsTrigger>
                 <TabsTrigger value="answers" className="tab">Answers</TabsTrigger>
             </TabsList>
-            <TabsContent value="top-posts" className="mt-5 flex w-full flex-col gap-6">
+            <TabsContent value="top-posts" className="mt-5 flex w-full flex-col">
                 <QuestionTab
                     searchParams={searchParams}
                     userId={userInfo.user._id}
@@ -115,3 +115,4 @@ export const Page = async ({ params, searchParams} : URLProps) => {
   )
 }
 
+export default Page;
