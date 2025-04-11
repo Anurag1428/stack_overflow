@@ -6,7 +6,7 @@ import { auth } from '@clerk/nextjs/server';
 import { useParams } from 'next/navigation';
 import React from 'react'
  
- const Page = async ({ params} : ParamsProps) => {
+ const Page = async ({ params} : any) => {
   const { userId } = await auth();
 
   if(!userId) return null;

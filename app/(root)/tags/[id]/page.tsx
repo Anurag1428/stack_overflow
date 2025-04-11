@@ -7,11 +7,11 @@ import { getQuestionsByTagId } from '@/lib/actions/tag.actions';
 import { URLProps } from '@/types';
 import React from 'react'
 
-const Page = async ({ params, searchParams}: URLProps) => {
+const Page = async ({ params, searchParams}: any) => {
     const result = await getQuestionsByTagId({
         tagId: params.id,
         page: searchParams.page ? +searchParams.page : 1,
-        searchQuery: searchParams.q
+        searchQuery: Array.isArray(searchParams.q) ? searchParams.q[0] : searchParams.q
     })
 
   return (

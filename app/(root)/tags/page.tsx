@@ -5,11 +5,10 @@ import Pagination from '@/components/shared/Pagination';
 import LocalSearchbar from '@/components/shared/search/LocalSearchbar';
 import {  TagFilters } from '@/constants/filters';
 import { getAllTags } from '@/lib/actions/tag.actions';
-import { SearchParamsProps } from '@/types';
 import Link from 'next/link';
 //this commit is for testing contributions whether they are being counted or not
 
-const Page = async ({ searchParams} : SearchParamsProps) => {
+const Page = async ({ searchParams} : any) => {
   const result = await getAllTags({
     searchQuery: searchParams.q,
     filter: searchParams.filter,
