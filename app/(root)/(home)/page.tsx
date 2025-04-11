@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic';
+
+
 import QuestionCard from "@/components/cards/QuestionCard";
 import HomeFilters from "@/components/home/HomeFilters";
 import Filter from "@/components/shared/Filter";
