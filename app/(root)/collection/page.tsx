@@ -1,4 +1,6 @@
 // @ts-nocheck
+export const dynamic = 'force-dynamic'; // ✅ Fixes useSearchParams crash during build
+
 
 import QuestionCard from "@/components/cards/QuestionCard";
 import Filter from "@/components/shared/Filter";
