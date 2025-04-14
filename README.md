@@ -34,6 +34,9 @@ The primary goal of DevEcho is to create a helpful and inclusive community for d
 - **Prisma** – ORM for database interaction and rich formatting
 - **OpenAI / ChatGPT** – AI assistance for smart recommendations
 
+![image](https://github.com/user-attachments/assets/09b927af-664a-4e66-b46e-1bf1e1f22b24)
+
+
 ## 👤 Who Can Use?
 
 Anyone is welcome to use DevEcho to ask and answer questions. It is especially tailored for individuals with a technical background, such as:
